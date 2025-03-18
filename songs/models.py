@@ -1,4 +1,5 @@
 from django.db import models
+from albums.models import Album
 from users.models import User
 from artists.models import Artist
 
@@ -6,11 +7,13 @@ from artists.models import Artist
 # Bài hát
 class Song(models.Model):
     title = models.CharField(max_length=255)
-    duration = models.IntegerField(blank=True, null=True)
+    duration = models.CharField(max_length=10, blank=True, null=True)
     genre = models.CharField(max_length=100, blank=True, null=True)
-    release_date = models.DateField(blank=True, null=True)
     audio_file = models.CharField(max_length=255, blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
 
+    album = models.ForeignKey(Album, on_delete=models.CASCADE,  null=True, blank=True)
+    
     def __str__(self):
         return self.title
     
@@ -23,6 +26,9 @@ class Participant(models.Model):
 
     class Meta:
         unique_together = ('song', 'artist')
+
+    def __str__(self):
+        return self.song.__str__() + ", " + self.artist.__str__()
 
 # Tương tác (Like, Share, Comment)
 class Interaction(models.Model):

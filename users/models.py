@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Người dùng (Kế thừa từ AbstractUser để hỗ trợ login)
 class User(AbstractUser):
-    username = ""
+    username = models.CharField('username', max_length=255, db_default="")
     email = models.EmailField('email address', unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
