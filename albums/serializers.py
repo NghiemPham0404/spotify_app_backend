@@ -13,3 +13,4 @@ class AlbumSerializer(serializers.ModelSerializer):
     def get_songs(self, obj):
         album_songs = Song.objects.filter(album=obj)
         return SongSerializer(album_songs, many=True).data
+

@@ -3,15 +3,13 @@ from django.contrib.auth.models import AbstractUser
 
 # Người dùng (Kế thừa từ AbstractUser để hỗ trợ login)
 class User(AbstractUser):
-    username = models.CharField('username', max_length=255, db_default="")
     email = models.EmailField('email address', unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-class Profile(models.Model):
     subscription_type = models.CharField(max_length=50, blank=True, null=True)
     profile_picture = models.CharField(max_length=255, blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    username = None  # Xóa username
     def __str__(self):
-        return self.user.username
+        return self.email

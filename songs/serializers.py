@@ -5,20 +5,25 @@ from users.models import User
 from .models import Song, Participant, Interaction
 
 class ParticipantSerializer(serializers.ModelSerializer):
+    artist_name = serializers.SerializerMethodField()
     class Meta:
         model = Participant
         fields = '__all__'
+
+    def get_artist_name(self, obj):
+        return obj.artist.name if obj.artist else None
+
         
 class InteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interaction
         fields = '__all__'
 
-    def validate(self, data):
-        request = self.context.get('request')
-        if request and request.user and data.get('user') != request.user:
-            raise serializers.ValidationError("You can only modify your own interactions.")
-        return data
+    # def validate(self, data):
+    #     request = self.context.get('request')
+    #     if request and request.user and data.get('user') != request.user:
+    #         raise serializers.ValidationError("You can only modify your own interactions.")
+    #     return data
 
 class SongSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,11 +31,10 @@ class SongSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     participants = ParticipantSerializer(source='participant_set', many=True, read_only=True)
-    interactionSerializer = InteractionSerializer(source='Interaction', many=True, read_only=True)
+    interactions = InteractionSerializer(source='interaction_set', many=True, read_only=True)
 
     def create(self, validated_data):
-        participants_data = validated_data.pop('participant_set', [])
-        interactions_data = validated_data.pop('interaction_set', [])
+        participants_data = validated_data.pop('participants', [])
         
         # Create Song object
         song = Song.objects.create(**validated_data)
@@ -40,16 +44,10 @@ class SongSerializer(serializers.ModelSerializer):
             artist = Artist.objects.get(id=participant_data['artist'])
             Participant.objects.create(song=song, artist=artist, role=participant_data['role'])
 
-        # Create Interactions
-        for interaction_data in interactions_data:
-            user = User.objects.get(id=interaction_data['user'])
-            Interaction.objects.create(song=song, user=user, interaction_type=interaction_data['interaction_type'])
-
         return song
 
     def update(self, instance, validated_data):
-        participants_data = validated_data.pop('participant_set', [])
-        interactions_data = validated_data.pop('interaction_set', [])
+        participants_data = validated_data.pop('participants', [])
 
         # Update Song fields
         for attr, value in validated_data.items():
@@ -61,11 +59,5 @@ class SongSerializer(serializers.ModelSerializer):
         for participant_data in participants_data:
             artist = Artist.objects.get(id=participant_data['artist'])
             Participant.objects.create(song=instance, artist=artist, role=participant_data['role'])
-
-        # Update Interactions (Clear and recreate)
-        instance.interaction_set.all().delete()
-        for interaction_data in interactions_data:
-            user = User.objects.get(id=interaction_data['user'])
-            Interaction.objects.create(song=instance, user=user, interaction_type=interaction_data['interaction_type'])
 
         return instance

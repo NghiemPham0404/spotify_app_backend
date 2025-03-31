@@ -16,19 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.urls import user_urls, profile_urls
+from users.urls import user_urls, register_urls
 from artists.urls import artist_urls, follow_urls
 from songs.urls import song_urls, interaction_urls, participant_urls
 from albums.urls import album_urls
+from playlists.urls import playlist_urls, playlist_song_urls
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('api/register/', include(register_urls)),  # Registration endpoint
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Login
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh token
+
     path('api/users/', include(user_urls)),
-    path('api/profiles/', include(profile_urls)),
     path('api/artists/', include(artist_urls)),
     path('api/follows/', include(follow_urls)),
     path('api/songs/', include(song_urls)),
     path('api/interactions/', include(interaction_urls)),
     path('api/participants/', include(participant_urls)),
-    path('api/albums/', include(album_urls))
+    path('api/albums/', include(album_urls)),
+    path('api/playlists/', include(playlist_urls)),
+    path('api/playlist_songs/', include(playlist_song_urls))
 ]

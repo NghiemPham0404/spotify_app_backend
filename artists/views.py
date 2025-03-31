@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Artist, Follow
@@ -11,6 +11,8 @@ from .serializers import ArtistSerializer, FollowSerializer
 class ArtistListCreateView(generics.ListCreateAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']  # Assuming 'name' is a field in the Artist model
 
 # Artist Detail (Retrieve, Update, Delete)
 class ArtistDetailView(generics.RetrieveUpdateDestroyAPIView):

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Song, Participant, Interaction
@@ -9,6 +9,8 @@ from .serializers import SongSerializer, ParticipantSerializer, InteractionSeria
 class SongListCreate(generics.ListCreateAPIView):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
 
 class SongDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Song.objects.all()
@@ -22,10 +24,8 @@ class ParticipantViewSet(viewsets.ModelViewSet):
 class InteractionViewSet(viewsets.ModelViewSet):
     queryset = Interaction.objects.all()
     serializer_class = InteractionSerializer
-
-    def get_queryset(self):
-        """Filter interactions so users can only see their own."""
-        return Interaction.objects.filter(user=self.request.user)
+    filter_backends = [filters.SearchFilter]
+    filters_fields = ['song__title', 'user__username', 'interaction_type']
 
     def update(self, request, *args, **kwargs):
         """Ensure only the interaction owner can update."""

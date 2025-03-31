@@ -8,11 +8,3 @@ class Migration(migrations.Migration):
     dependencies = [
         ('users', '0001_initial'),
     ]
-
-    operations = [
-        migrations.AddField(
-            model_name='user',
-            name='username',
-            field=models.CharField(db_default='', max_length=255, verbose_name='username'),
-        ),
-    ]

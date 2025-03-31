@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserListCreateView, UserDetailView, ProfileListCreateView, ProfileDetailView
+from .views import UserListCreateView, UserDetailView, RegisterView
 from artists.views import UserFollowedArtistsView
 
 user_urls = [
@@ -11,8 +11,6 @@ user_urls = [
     path('user/followed-artists/', UserFollowedArtistsView.as_view(), name='user-followed-artists'),
 ]
 
-profile_urls = [
-    # Profile Endpoints
-    path('', ProfileListCreateView.as_view(), name='profile-list-create'),
-    path('<int:pk>/', ProfileDetailView.as_view(), name='profile-detail'),
+register_urls = [
+    path('', RegisterView.as_view(), name='register'),
 ]
