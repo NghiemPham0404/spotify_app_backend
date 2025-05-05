@@ -14,7 +14,7 @@ A music player app clonning Spotify using Django. FMDEditor stands for Fast Mark
 1. Clone this project to your local machine with this command:
 ```bash
 git clone https://github.com/nghiempham0404/spotify_app_backend.git
-cd FMDEditor
+cd spotify_app_backend
 ```
 2. Install all requirements:
 ```bash
