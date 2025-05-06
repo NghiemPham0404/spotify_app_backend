@@ -20,6 +20,7 @@ from users.urls import user_urls, register_urls
 from artists.urls import artist_urls, follow_urls
 from songs.urls import song_urls, interaction_urls, participant_urls
 from albums.urls import album_urls
+from ai_chatbot.urls import chatbot_url
 from playlists.urls import playlist_urls, playlist_song_urls
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -38,5 +39,6 @@ urlpatterns = [
     path('api/participants/', include(participant_urls)),
     path('api/albums/', include(album_urls)),
     path('api/playlists/', include(playlist_urls)),
-    path('api/playlist_songs/', include(playlist_song_urls))
+    path('api/playlist_songs/', include(playlist_song_urls)),
+    path('api/chatbot/', include(chatbot_url))
 ]

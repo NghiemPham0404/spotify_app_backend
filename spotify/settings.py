@@ -94,11 +94,11 @@ WSGI_APPLICATION = 'spotify.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'spotify',
-        'USER': 'avnadmin',  # Thay bằng username của MySQL
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),  # Thay bằng username của MySQL
         'PASSWORD': os.getenv('PASSWORD'),  # Thay bằng mật khẩu của MySQL
-        'HOST': 'mymessenger-fastapichattingproject.f.aivencloud.com',
-        'PORT': '23520',
+        'HOST': os.getenv('HOST'),
+        'PORT': os.getenv('POST'),
         'OPTIONS': {
             'charset': 'utf8mb4'
         },
