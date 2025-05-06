@@ -98,7 +98,7 @@ DATABASES = {
         'USER': os.getenv('USER'),  # Thay bằng username của MySQL
         'PASSWORD': os.getenv('PASSWORD'),  # Thay bằng mật khẩu của MySQL
         'HOST': os.getenv('HOST'),
-        'PORT': os.getenv('POST'),
+        'PORT': os.getenv('PORT'),
         'OPTIONS': {
             'charset': 'utf8mb4'
         },
