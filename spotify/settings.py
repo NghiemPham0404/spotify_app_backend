@@ -95,7 +95,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('NAME'),
-        'USER': os.getenv('USER'),  # Thay bằng username của MySQL
+        'USER': os.getenv('DBUSER'),  # Thay bằng username của MySQL
         'PASSWORD': os.getenv('PASSWORD'),  # Thay bằng mật khẩu của MySQL
         'HOST': os.getenv('HOST'),
         'PORT': os.getenv('PORT'),
