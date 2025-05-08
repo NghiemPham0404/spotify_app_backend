@@ -10,6 +10,7 @@ class Song(models.Model):
     duration = models.CharField(max_length=10, blank=True, null=True)
     genre = models.CharField(max_length=100, blank=True, null=True)
     audio_file = models.CharField(max_length=255, blank=True, null=True)
+    video_file = models.CharField(max_length=255, blank=True, null=True)
     image = models.CharField(max_length=255, blank=True, null=True)
 
     album = models.ForeignKey(Album, on_delete=models.CASCADE,  null=True, blank=True)
