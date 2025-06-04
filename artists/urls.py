@@ -1,9 +1,7 @@
 from django.urls import path
 from .views import (
     ArtistListCreateView, ArtistDetailView,
-    FollowArtistView, UnfollowArtistView,
-    UserFollowedArtistsView, ArtistFollowersView
-)
+    FollowArtistView, UnfollowArtistView,)
 
 follow_urls = [
     # Follow & Unfollow
@@ -15,5 +13,4 @@ artist_urls = [
     # Artist Endpoints
     path('', ArtistListCreateView.as_view(), name='artist-list-create'),
     path('<int:pk>/', ArtistDetailView.as_view(), name='artist-detail'),
-    path('<int:artist_id>/followers/', ArtistFollowersView.as_view(), name='artist-followers'),
 ]

@@ -52,19 +52,3 @@ class UnfollowArtistView(generics.DestroyAPIView):
             return Response({"message": "Unfollowed successfully"}, status=status.HTTP_200_OK)
         except Follow.DoesNotExist:
             return Response({"error": "Not following this artist"}, status=status.HTTP_400_BAD_REQUEST)
-
-# List Artists followed by the user
-class UserFollowedArtistsView(generics.ListAPIView):
-    serializer_class = ArtistSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return Artist.objects.filter(followers__follower=self.request.user)
-
-# List Followers of an Artist
-class ArtistFollowersView(generics.ListAPIView):
-    serializer_class = FollowSerializer
-
-    def get_queryset(self):
-        artist_id = self.kwargs.get("artist_id")
-        return Follow.objects.filter(followee_id=artist_id)

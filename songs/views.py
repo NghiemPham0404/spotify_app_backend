@@ -16,26 +16,32 @@ class SongDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
 
-class ParticipantViewSet(viewsets.ModelViewSet):
+class ParticipantListCreate(generics.ListCreateAPIView):
     queryset = Participant.objects.all()
     serializer_class = ParticipantSerializer
 
+class ParticipantDetail(generics.RetrieveAPIView):
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantSerializer
 
-class InteractionViewSet(viewsets.ModelViewSet):
+class InteractionListCreate(generics.ListCreateAPIView):
     queryset = Interaction.objects.all()
     serializer_class = InteractionSerializer
     filter_backends = [filters.SearchFilter]
     filters_fields = ['song__title', 'user__username', 'interaction_type']
+        
+
+class InteractionDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Interaction.objects.all()
+    serializer_class = InteractionSerializer
 
     def update(self, request, *args, **kwargs):
-        """Ensure only the interaction owner can update."""
         instance = self.get_object()
         if instance.user != request.user:
             return Response({"error": "You can only update your own interactions."}, status=status.HTTP_403_FORBIDDEN)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        """Ensure only the interaction owner can delete."""
         instance = self.get_object()
         if instance.user != request.user:
             return Response({"error": "You can only delete your own interactions."}, status=status.HTTP_403_FORBIDDEN)

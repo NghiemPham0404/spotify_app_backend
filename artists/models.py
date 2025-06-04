@@ -9,7 +9,7 @@ class Artist(models.Model):
     biography = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name        
     
 
 # Quan hệ Follow giữa User và Artist

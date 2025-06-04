@@ -1,6 +1,8 @@
 from django.urls import path,include
 
-from .views import SongListCreate, SongDetailUpdateDelete, InteractionViewSet, ParticipantViewSet
+from .views import SongListCreate, SongDetailUpdateDelete
+from .views import InteractionListCreate, InteractionDetail
+from .views import ParticipantListCreate, ParticipantDetail
 
 
 song_urls =[
@@ -9,11 +11,11 @@ song_urls =[
 ]
 
 interaction_urls = [
-    path('', InteractionViewSet.as_view({'get': 'list', 'post': 'create'}), name='interaction-list'),
-    path('<int:pk>/', InteractionViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='interaction-detail'),
+    path('', InteractionListCreate.as_view(), name='interaction-list'),
+    path('<int:pk>/', InteractionDetail.as_view() , name='interaction-detail'),
 ]
 
 participant_urls = [
-    path("", ParticipantViewSet.as_view({'get':'list', 'post':'create'}), name='participant-list'),
-    path('<int:pk>/', ParticipantViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='particitpant-detail')
+    path("", ParticipantListCreate.as_view(), name='participant-list'),
+    path('<int:pk>/', ParticipantDetail.as_view(), name='particitpant-detail')
 ]
